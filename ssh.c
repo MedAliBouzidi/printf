@@ -25,7 +25,7 @@ char *itos(char str[], long int n)
 	n = (n / 10);
 
 	if (n < 0)
-	    n *= -1;
+		n *= -1;
 
 	length = 0;
 	div = 1;
@@ -49,7 +49,7 @@ char *itos(char str[], long int n)
 
 	str[i] = last + '0';
 
-    return (str);
+	return (str);
 }
 
 /**

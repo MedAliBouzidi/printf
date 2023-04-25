@@ -24,10 +24,10 @@ void print_d(va_list l, char *buffer, int *index)
 	if (num_str == NULL)
 		return;
 
-    itos(num_str, i);
+	itos(num_str, i);
 
 	i = *index, j = 0;
-    while (j < ln)
+	while (j < ln)
 	{
 		if (*index == 1024)
 		{
@@ -36,7 +36,7 @@ void print_d(va_list l, char *buffer, int *index)
 			*index = 0;
 		}
 		buffer[*index] = num_str[j];
-        *index += 1, i++, j++;
+		*index += 1, i++, j++;
 	}
 
 	free(num_str);

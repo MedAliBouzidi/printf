@@ -35,18 +35,12 @@ int _printf(const char *format, ...)
 		if (*(format + i) == '\0')
 			break;
 		if (*(format + i) == '%')
-		{
-			i++;
-			while (spec[j].type)
-			{
+			for (i++; spec[j].type; j++)
 				if (*(format + i) == spec[j].type)
 				{
 					spec[j].f(l, buffer, index);
 					break;
 				}
-				j++;
-			}
-		}
 		i++;
 	}
 	va_end(l);

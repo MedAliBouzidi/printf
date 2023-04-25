@@ -19,8 +19,8 @@ void print_s(va_list l, char *buffer, int *index)
 	if (s == NULL)
 		s = "(null)";
 
-    i = *index, j = 0;
-	while ( *(s + j))
+	i = *index, j = 0;
+	while (*(s + j))
 	{
 		if (*index == 1024)
 		{
@@ -29,7 +29,7 @@ void print_s(va_list l, char *buffer, int *index)
 			*index = 0;
 		}
 		buffer[*index] = *(s + j);
-        *index += 1, i++, j++;
+		*index += 1, i++, j++;
 	}
 }
 

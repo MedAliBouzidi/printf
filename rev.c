@@ -17,10 +17,10 @@ void print_r(va_list l, char *buffer, int *index)
 	s = va_arg(l, char *);
 	strlen = _strlen(s) - 1;
 
-    i = strlen;
-    while (i >= 0)
+	i = strlen;
+	while (i >= 0)
 	{
 		buffer[*index] = s[i];
-        i--, *index += 1;
+		i--, *index += 1;
 	}
 }
