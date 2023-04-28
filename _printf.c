@@ -1,50 +1,45 @@
 #include "main.h"
-
 /**
-  * _printf - function that prints based on format specifier
-  * @format: takes in format specifier
-  * Return: return pointer to index
-  */
-int _printf(const char *format, ...)
+ * _printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: the length of the string.
+ */
+int _printf(const char * const format, ...)
 {
-	char buffer[1024];
-	int i, j = 0, a = 0, *index = &a;
-	va_list l;
-	format_t spec[] = {
-		{'c',  print_c}, {'d',  print_d}, {'s',  print_s}, {'i',  print_d},
-		{'u',  print_u}, {'%',  print_perc}, {'x',  print_h}, {'X',  print_ch},
-		{'o',  print_o}, {'b',  print_b}, {'p',  print_p}, {'r',  print_r},
-		{'R',  print_R}, {'\0', NULL}
+	convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
+		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
 	};
 
-	if (!format)
+	va_list args;
+	int i = 0, j, len = 0;
+
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
-	va_start(l, format);
-	while (*(format + i))
+
+Here:
+	while (format[i] != '\0')
 	{
-		while (*(format + i) != '%' && *(format + i))
+		j = 13;
+		while (j >= 0)
 		{
-			if (*index == 1024)
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
 			{
-				_write_buffer(buffer, index);
-				reset_buffer(buffer);
-				*index = 0;
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
 			}
-			buffer[*index] = format[i];
+			j--;
 		}
-		if (*(format + i) == '\0')
-			break;
-		if (*(format + i) == '%')
-			for (i++; spec[j].type; j++)
-				if (*(format + i) == spec[j].type)
-				{
-					spec[j].f(l, buffer, index);
-					break;
-				}
+		_putchar(format[i]);
+		len++;
 		i++;
 	}
-	va_end(l);
-	buffer[*index] = '\0';
-	_write_buffer(buffer, index);
-	return (*index);
+	va_end(args);
+	return (len);
 }
